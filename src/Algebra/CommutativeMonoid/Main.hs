@@ -32,9 +32,8 @@ test prob =
             putStr "Problem:   "
             print $ Equation (t0, t1)
             putStr "Unifier:   "
-            case unify $ Equation (t0, t1) of
-              Err err -> putStrLn err
-              Ans subst -> print subst
+            let subst =  unify $ Equation (t0, t1)
+            print subst
             putStrLn ""
 
 readM :: (Read a, Monad m) => String -> m a
