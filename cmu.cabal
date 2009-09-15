@@ -19,6 +19,7 @@ Extra-Source-Files:	readme.txt ChangeLog Makefile
 Library
   Build-Depends:	base <= 4.1.0.0, containers, array
   Exposed-Modules:	Algebra.CommutativeMonoid.Unification
+                        Algebra.CommutativeMonoid.HomLinDiaphEq
   Hs-Source-Dirs:	src
   GHC-Options:
     -Wall -fno-warn-name-shadowing -fwarn-unused-imports
@@ -27,6 +28,7 @@ Executable cmu
   Main-Is:		Algebra/CommutativeMonoid/Main.hs
   Build-Depends:	base <= 4.1.0.0, containers, array
   Other-Modules:	Algebra.CommutativeMonoid.Unification
+                        Algebra.CommutativeMonoid.HomLinDiaphEq
   Hs-Source-Dirs:	src
   GHC-Options:
     -Wall -fno-warn-name-shadowing -fwarn-unused-imports

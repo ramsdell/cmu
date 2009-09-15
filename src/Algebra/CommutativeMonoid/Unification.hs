@@ -65,9 +65,7 @@ import Data.Char (isSpace, isAlpha, isAlphaNum, isDigit)
 import Data.List (transpose)
 import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.Array (Array, listArray, (//), indices, elems, (!))
-import Data.Set (Set)
-import qualified Data.Set as S
+import Algebra.CommutativeMonoid.HomLinDiaphEq
 
 -- Chapter 8, Section 5 of the Handbook of Automated Reasoning by
 -- Franz Baader and Wayne Snyder describes unification in
@@ -101,14 +99,14 @@ import qualified Data.Set as S
 -- if there is a substitition s" such that s' = s" o s.
 
 -- A term is represented by the group identity, or as the sum of
--- factors.  A factor is the product of a non-negative integer
--- coefficient and a variable.  In this representation, no variable
--- occurs twice.  Thus a term is represented by a finite map from
--- variables to non-negative integers.
+-- factors.  A factor is the product of a positive integer coefficient
+-- and a variable.  In this representation, no variable occurs twice.
+-- Thus a term is represented by a finite map from variables to
+-- non-negative integers.
 
 -- | A term in a commutative monoid is represented by the group
 -- identity element, or as the sum of factors.  A factor is the
--- product of a non-zero integer coefficient and a variable.  No
+-- product of a positive integer coefficient and a variable.  No
 -- variable occurs twice in a term.  For the show and read methods,
 -- zero is the group identity, the plus sign is the group operation.
 newtype Term = Term (Map String Int) deriving Eq
@@ -138,6 +136,11 @@ mul 1 t = t
 mul n (Term t)
     | n < 0 = error "Negative coefficient found"
     | otherwise = Term $ Map.map (* n) t
+
+-- Invert a term by negating its coefficients.
+neg :: Term -> Term
+neg (Term t) =
+    Term $ Map.map negate t
 
 -- | Add two terms.
 add :: Term -> Term -> Term
@@ -207,11 +210,6 @@ unify (Equation (t0, t1)) =
           let basis = homLinDiaphEq (map snd t) in
           mgu (map fst t) basis
 
--- Invert a term by negating its coefficients.
-neg :: Term -> Term
-neg (Term t) =
-    Term $ Map.map negate t
-
 -- Construct a most general unifier the minimal non-negative solutions
 -- to a linear equation.  The function adds the variables back into
 -- terms, and generates fresh variables as needed.
@@ -266,116 +264,8 @@ genSymsAvoiding vars =
 --     c[0]*x[0] + c[1]*x[1] + ... + c[n-1]*x[n-1] = d[0]
 --
 -- To compute a most general unifier, the set of minimal non-negative
--- integer solutions to a linear equation must be found.
-
--- Homogeneous Linear Diaphantine Equation solver.
---
--- The solver uses the algorithm of Contejean and Devie as specified
--- by David Papp and Bela Vizari in \"Effective Solutions of Linear
--- Diophantine Equation Systems with an Application to Chemistry\",
--- Rutcor Research Report RRR 28-2004, September, 2004,
--- <http://rutcor.rutgers.edu/pub/rrr/reports2004/28_2004.ps>, after
--- modification so as to ensure every basis vector is considered.
---
--- The algorithm for systems of homogeneous linear Diophantine
--- equations follows.  Let e[k] be the kth basis vector for 1 <= k <=
--- n.  To find the minimal, non-negative solutions M to the system of
--- equations sum(i=1,n,a[i]*v[i]) = 0, the algorithm of Contejean and
--- Devie is:
---
---  1. [init] A := {e[k] | 1 <= k <= n}; M := {}
---
---  2. [new minimal results] M := M + {a in A | a is a solution}
---
---  3. [unnecessary branches] A := {a in A | all m in M : some
---     1 <= k <= n : m[k] < a[k]}
---
---  4. [test] If A = {}, stop
---
---  5. [breadth-first search] A := {a + e[k] | a in A, 1 <= k <= n,
--- \<sum(i=1,n,a[i]*v[i]),v[k]> \< 0}; go to step 2
-
-type Vector a = Array Int a
-
-vector :: Int -> [a] -> Vector a
-vector n elems =
-    listArray (0, n - 1) elems
-
--- | the 'homLinDiaphEq' function takes a list of integers that
--- specifies a homogeneous linear Diophantine equation, and returns
--- the equation's minimal, non-negative solutions.
-homLinDiaphEq :: [Int] -> [[Int]]
-homLinDiaphEq [] = []
-homLinDiaphEq v =
-    newMinimalResults (vector n v) (basis n) S.empty
-    where n = length v
-
--- Construct the basis vectors for an n-dimensional space
-basis :: Int -> Set (Vector Int)
-basis n =
-    foldl (flip S.insert) S.empty
-              [ z // [(k, 1)] |
-                k <- indices z ]
-    where z = vector n $ replicate n 0
-
--- The main loop has been reorganized to ensure every basis vector is
--- considered.  The breadth-first search step is now the last step.
-
--- Add elements of a that solve the equation to m and the output
-newMinimalResults :: Vector Int -> Set (Vector Int) ->
-                     Set (Vector Int) -> [[Int]]
-newMinimalResults v a m =
-    loop m (S.toList a)         -- Test each element in a
-    where
-      loop m [] =
-          nextSearch v a m      -- Generate new a and try again
-      loop m (x:xs)
-           | prod v x == 0 && S.notMember x m =
-               elems x:loop (S.insert x m) xs -- Answer found
-           | otherwise =
-               loop m xs
-
--- Generate the next set of test vectors--if there aren't any, your done
-nextSearch :: Vector Int -> Set (Vector Int) ->
-              Set (Vector Int) -> [[Int]]
-nextSearch v a m =
-    if S.null a' then
-        []
-    else
-        newMinimalResults v (breadthFirstSearch v a') m
-    where
-      a' = unnecessaryBranches a m
-
--- Remove unnecessary branches.  A test vector is not necessary if all
--- of its elements are greater than or equal to the elements of some
--- minimal solution.
-unnecessaryBranches :: Set (Vector Int) -> Set (Vector Int) -> Set (Vector Int)
-unnecessaryBranches a m =
-    S.filter f a
-    where
-      f x = all (g x) (S.toList m)
-      g x y = not (lessEq y x)
-
--- Compare vectors element-wise.
-lessEq :: Vector Int -> Vector Int -> Bool
-lessEq x y =
-    all (\i-> x!i <= y!i) (indices x)
-
--- Breadth-first search using the algorithm of Contejean and Devie
-breadthFirstSearch :: Vector Int -> Set (Vector Int) -> Set (Vector Int)
-breadthFirstSearch v a =
-    S.fold f S.empty a
-    where
-      f x acc =
-          foldl (flip S.insert) acc
-            [ x // [(k, x!k + 1)] |
-              k <- indices x,
-              prod v x * v!k < 0 ] -- Contejean-Devie contribution
-
--- Inner product
-prod :: Vector Int -> Vector Int -> Int
-prod x y =
-    sum [ x!i * y!i | i <- indices x ]
+-- integer solutions to a linear equation must be found.  See module 
+-- Algebra.CommutativeMonoid.HomLinDiaphEq.
 
 -- Input and Output
 
