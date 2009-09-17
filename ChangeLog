@@ -1,3 +1,9 @@
 2009-09-17  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* cmu.cabal (Version): Released as version 1.0.
+
+	* cmu.cabal (Synopsis): Fixed spelling error.
+
+	* cmu.cabal (Version): Released as version 1.1 after fixing the
+	embarrassing spelling error.
+

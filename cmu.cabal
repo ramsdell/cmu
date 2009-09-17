@@ -1,10 +1,10 @@
 Name:			cmu
-Version:		1.0
+Version:		1.1
 Maintainer:		ramsdell@mitre.org
 Cabal-Version:		>= 1.2
 License:		GPL
 License-File:		license.txt
-Synopsis:		Unification in a Commutative Monaid
+Synopsis:		Unification in a Commutative Monoid
 Description:            The unification problem is given the problem
 			statement t =? t\', find a most general
 			substitution s such that s(t) = s(t\') modulo
