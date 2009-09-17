@@ -206,7 +206,7 @@ unify :: Equation -> Substitution
 unify (Equation (t0, t1)) =
     case assocs (add t0 (neg t1)) of
       [] -> Substitution Map.empty
-      t -> 
+      t ->
           let basis = homLinDiaphEq (map snd t) in
           mgu (map fst t) basis
 
@@ -264,7 +264,7 @@ genSymsAvoiding vars =
 --     c[0]*x[0] + c[1]*x[1] + ... + c[n-1]*x[n-1] = d[0]
 --
 -- To compute a most general unifier, the set of minimal non-negative
--- integer solutions to a linear equation must be found.  See module 
+-- integer solutions to a linear equation must be found.  See module
 -- Algebra.CommutativeMonoid.HomLinDiaphEq.
 
 -- Input and Output
