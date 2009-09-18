@@ -1,3 +1,10 @@
+2009-09-18  John D. Ramsdell  <ramsdell@mm144697-pc.mitre.org>
+
+	* src/Algebra/CommutativeMonoid/Unification.hs: Changed
+	occurrences of group to monoid in comments.
+
+	* cmu.cabal (Version): Released as version 1.2.
+
 2009-09-17  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* cmu.cabal (Version): Released as version 1.0.
