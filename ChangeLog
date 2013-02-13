@@ -1,4 +1,4 @@
-2009-09-18  John D. Ramsdell  <ramsdell@mm144697-pc.mitre.org>
+2009-09-18  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* src/Algebra/CommutativeMonoid/Unification.hs: Changed
 	occurrences of group to monoid in comments.
