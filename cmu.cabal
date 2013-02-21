@@ -1,5 +1,5 @@
 Name:			cmu
-Version:		1.2
+Version:		1.3
 Maintainer:		ramsdell@mitre.org
 Cabal-Version:		>= 1.2
 License:		GPL
@@ -14,10 +14,11 @@ Description:            The unification problem is given the problem
 			s\" o s.
 Category:		Algebra
 Build-Type:		Simple
+Location:		git://github.com/ramsdell/cmu.git
 Extra-Source-Files:	readme.txt ChangeLog Makefile
 
 Library
-  Build-Depends:	base <= 4.1.0.0, containers, array
+  Build-Depends:	base >= 3 && < 5, containers, array
   Exposed-Modules:	Algebra.CommutativeMonoid.Unification
                         Algebra.CommutativeMonoid.HomLinDiaphEq
   Hs-Source-Dirs:	src
@@ -26,7 +27,7 @@ Library
 
 Executable cmu
   Main-Is:		Algebra/CommutativeMonoid/Main.hs
-  Build-Depends:	base <= 4.1.0.0, containers, array
+  Build-Depends:	base >= 3 && < 5, containers, array
   Other-Modules:	Algebra.CommutativeMonoid.Unification
                         Algebra.CommutativeMonoid.HomLinDiaphEq
   Hs-Source-Dirs:	src
