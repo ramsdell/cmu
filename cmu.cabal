@@ -1,7 +1,7 @@
 Name:			cmu
-Version:		1.8
+Version:		1.9
 Maintainer:		ramsdell@mitre.org
-Cabal-Version:		>= 1.2
+Cabal-Version:		>= 1.6
 License:		GPL
 License-File:		license.txt
 Synopsis:		Unification in a Commutative Monoid
@@ -32,3 +32,7 @@ Executable cmu
   Hs-Source-Dirs:	src
   GHC-Options:
     -Wall -fno-warn-name-shadowing -fwarn-unused-imports
+
+Source-Repository head
+  Type:			git
+  Location:		git://github.com/ramsdell/cmu.git
