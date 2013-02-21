@@ -1,4 +1,4 @@
--- A top-level loop for unification in a Commutative Moniod
+-- A top-level loop for unification in a Commutative Monoid
 --
 -- Copyright (C) 2009 John D. Ramsdell
 --

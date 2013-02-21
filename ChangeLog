@@ -1,10 +1,50 @@
-2013-02-21  John D. Ramsdell  <ramsdell@mitre.org>
+2012-05-12  John D. Ramsdell  <ramsdell@mitre.org>
 
-	* cmu.cabal (Location): Added repository location.
+	* cmu.cabal (Version): Released as version 1.8.
 
-	* cmu.cabal (Build-Depends): Allowed base < 5.
+	* src/Algebra/CommutativeMonoid/LinDiophEq.hs: Used the method in
+	the paper by Contejean and Devie for solving an inhomogeneous
+	equation using the algorithm for the homogeneous equation solver.
+	The previous version buggy.
+
+2012-05-02  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* cmu.cabal (Version): Released as version 1.7.
+
+2012-04-27  John D. Ramsdell  <ramsdell@mitre.org>
+
+        * src/Algebra/CommutativeMonoid/LinDiophEq.hs: Corrected spelling
+	error by replacing Diaphantine with Diophantine.
+
+2012-04-25  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* cmu.cabal (Version): Released as version 1.6.
+
+	* src/Algebra/CommutativeMonoid/LinDiaphEq.hs: Added code that
+	solves inhomogeneous equations.
+
+2012-02-29  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* cmu.cabal (Version): Released as version 1.5.
+
+	* src/Algebra/CommutativeMonoid/{Main.hs,Unification.hs}:
+	Corrected spelling of monoid in several places.
+
+2012-02-29  John D. Ramsdell  <ramsdell@mitre.org>
+
+	* cmu.cabal (Version): Released as version 1.4.  Also, constrained
+	the containers package to be 0.3 or greater.
+
+	* src/Algebra/CommutativeMonoid/Unification.hs: Replaced
+	occurrences of Data.Map.foldWithKey by Data.Map.foldrWithKey as
+	the former has been deprecated.
+
+2010-06-21  John D. Ramsdell  <ramsdell@mitre.org>
 
 	* cmu.cabal (Version): Released as version 1.3.
+
+	* cmu.cabal (Build-Depends): changes dependency to
+	base >= 3 && <5, containers
 
 2009-09-18  John D. Ramsdell  <ramsdell@mitre.org>
 
@@ -21,4 +61,3 @@
 
 	* cmu.cabal (Version): Released as version 1.1 after fixing the
 	embarrassing spelling error.
-
