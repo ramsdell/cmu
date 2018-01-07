@@ -17,7 +17,7 @@
 
 module Main (main, test) where
 
-import Control.Applicative
+import qualified Control.Monad.Fail as Fail
 import System.IO (isEOF, hFlush, stdout)
 import Algebra.CommutativeMonoid.Unification
 
@@ -37,12 +37,12 @@ test prob =
             print subst
             putStrLn ""
 
-readM :: (Read a, Monad m) => String -> m a
+readM :: (Read a, Fail.MonadFail m) => String -> m a
 readM s =
     case [ x | (x, t) <- reads s, ("", "") <- lex t ] of
       [x] -> return x
-      [] -> fail "no parse"
-      _ -> fail "ambiguous parse"
+      [] -> Fail.fail "no parse"
+      _ -> Fail.fail "ambiguous parse"
 
 -- Like Either String but with fail method defined
 data AnsErr a
@@ -62,6 +62,8 @@ instance Monad AnsErr where
     (Ans x) >>= k = k x
     (Err s) >>= _ = Err s
     return        = Ans
+
+instance Fail.MonadFail AnsErr where
     fail          = Err         -- fail is Err
 
 -- Main loop
