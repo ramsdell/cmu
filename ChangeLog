@@ -3,7 +3,7 @@
 	* cmu.cabal (Version): Released as version 1.12
 
 	* src/Algebra/CommutativeMonoid/Main.hs (AnsErr): Updated code
-	to support the MonadFail proposal as implenented in base-4.13.0.0.
+	to support the MonadFail proposal as implemented in base-4.13.0.0.
 
 2018-01-06  John D. Ramsdell  <ramsdell@mitre.org>
 
