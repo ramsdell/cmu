@@ -1,5 +1,5 @@
 Name:			cmu
-Version:		1.11
+Version:		1.12
 Maintainer:		ramsdell@mitre.org
 Cabal-Version:		>= 1.6
 License:		GPL
@@ -17,7 +17,7 @@ Build-Type:		Simple
 Extra-Source-Files:	readme.txt ChangeLog Makefile
 
 Library
-  Build-Depends:	base >= 3 && < 5, containers >= 0.3, array
+  Build-Depends:	base >= 4.13 && < 5, containers >= 0.3, array
   Exposed-Modules:	Algebra.CommutativeMonoid.Unification
                         Algebra.CommutativeMonoid.LinDiophEq
   Hs-Source-Dirs:	src
@@ -26,7 +26,7 @@ Library
 
 Executable cmu
   Main-Is:		Algebra/CommutativeMonoid/Main.hs
-  Build-Depends:	base >= 3 && < 5, containers >= 0.3, array
+  Build-Depends:	base >= 4.13 && < 5, containers >= 0.3, array
   Other-Modules:	Algebra.CommutativeMonoid.Unification
                         Algebra.CommutativeMonoid.LinDiophEq
   Hs-Source-Dirs:	src
