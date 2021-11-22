@@ -60,7 +60,6 @@ instance Applicative (AnsErr) where
 instance Monad AnsErr where
     (Ans x) >>= k = k x
     (Err s) >>= _ = Err s
-    return        = Ans
 
 instance MonadFail AnsErr where
     fail          = Err         -- fail is Err

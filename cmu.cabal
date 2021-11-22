@@ -1,7 +1,7 @@
 Name:                   cmu
 Version:                1.12
 Maintainer:             ramsdell@mitre.org
-Cabal-Version:          >= 1.6
+Cabal-Version:          >= 1.8
 License:                GPL
 License-File:           license.txt
 Synopsis:               Unification in a Commutative Monoid
